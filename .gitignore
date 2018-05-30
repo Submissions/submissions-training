@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Local generated files
+/modules/dir_a
+/modules/dir_b
+/modules/input_a.txt
+/modules/*log
+/modules/bin/ts
