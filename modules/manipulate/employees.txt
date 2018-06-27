@@ -1,0 +1,6 @@
+Cerebellum manager account 45000
+Cerebrum clerk account 25000
+Hypothalamus manager sales 50000
+Dendrites manager account 47000
+Grey clerk sales 15000
+White clerk sales 23000

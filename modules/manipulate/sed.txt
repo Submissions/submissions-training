@@ -1,0 +1,8 @@
+* is a command
+
+** is a command
+
+* * is a command
+
+**** is a command ****
+
