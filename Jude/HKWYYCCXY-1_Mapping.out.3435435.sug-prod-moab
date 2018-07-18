@@ -1,0 +1,80 @@
+[ HgV ] Step name:	HKWYYCCXY-1_Mapping
+[ HgV ] Node name:	c81m-12b
+[ HgV ] PBS_JOBID:	3435435.sug-prod-moab
+[ HgV ] Start time:	Sat May  5 20:15:08 CDT 2018
+((((((-------Running HgV Script-------))))))
+#!/bin/bash
+#PBS -N HKWYYCCXY-1_Mapping
+#PBS -o /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.out.$PBS_JOBID
+#PBS -e /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.err.$PBS_JOBID
+#PBS -d /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1
+#PBS -l nodes=1:ppn=8,mem=48000mb
+#PBS -l walltime=168:00:00
+#PBS -q ill-prod
+#PBS -A HEMSTR_prog-ng0013
+#The return value of a pipeline is the value of the last command to exit with non-zero status
+set -o pipefail
+
+#Use the same HgV as was in the environment when the job was created regardless of user environment
+source /hgsc_software/HgV/HgV-v17.5/setup.sh /hgsc_software/HgV/HgV-v17.5 /hgsc_software/HgV/HgV-v17.5/config/production/
+
+#Wraps commands so we can be notified of failed commands
+function hgvExitSafe {
+    echo "[ HgV ] Command $1 Finished on $(date)";
+    echo "[ HgV ] Exit Status: $2"
+    if [ $2 -ne 0 ]; then
+        echo "[ HgV ] Aborting Step"
+        hgv Exit -n HKWYYCCXY-1_Mapping -s $2 -o /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.out.$PBS_JOBID -e /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.err.$PBS_JOBID -d /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1
+        exit $2
+    fi
+}
+
+echo -e "[ HgV ] Step name:\tHKWYYCCXY-1_Mapping"
+echo -e "[ HgV ] Node name:\t$(uname -n)"
+echo -e "[ HgV ] PBS_JOBID:\t$PBS_JOBID"
+echo -e "[ HgV ] Start time:\t$(date)"
+
+echo "((((((-------Running HgV Script-------))))))"
+cat "/stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/scripts/HKWYYCCXY-1_Mapping.sh"
+echo "((((((-------Begin Run's Log-------))))))"
+
+#Commands To Run
+echo "[ HgV ] Running Command #0 at $(date)"
+time /hgsc_software/bwa/bwa-0.7.15/bwa mem -K 100000000 -Y -t 8 -R '@RG	ID:0	SM:201124091-10	LB:HEMSTR.201124091-10-1_2AMP	PU:HKWYYCCXY-1	CN:BCM	DT:2018-05-05T20:13:42-0500	PL:Illumina' /stornext/snfs5/next-gen/Illumina/bwa_references/g/GRCh38_1000Genomes/GRCh38_full_analysis_set_plus_decoy_hla.fa /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1_S0_L001_R1_001.fastq.gz /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1_S0_L001_R2_001.fastq.gz | /hgsc_software/samblaster/samblaster-v.0.1.24/samblaster --addMateTags -a | /hgsc_software/samtools/samtools-1.3.1_htslib_1_3_2/bin/samtools view -bu - | /hgsc_software/sambamba/sambamba_v0.6.4/sambamba sort -n -t 8 -l 1 --tmpdir /space1/tmp/$PBS_JOBID -o /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.tmp.bam /dev/stdin; hgvExitSafe 0 $?;
+echo "[ HgV ] Running Command #1 at $(date)"
+time /hgsc_software/java/jdk1.8.0_74/bin/java -jar -Xmx46g /hgsc_software/picard/picard-tools-2.6.0/picard.jar MarkDuplicates TMP_DIR=/space1/tmp/$PBS_JOBID I=/stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.tmp.bam O=/dev/stdout METRICS_FILE=/stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/mark_dups_metrics.txt ASSUME_SORT_ORDER=queryname QUIET=true COMPRESSION_LEVEL=0 | /hgsc_software/sambamba/sambamba_v0.6.4/sambamba sort -t 8 --tmpdir /space1/tmp/$PBS_JOBID -o /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.hgv.bam /dev/stdin; hgvExitSafe 1 $?;
+echo "[ HgV ] Running Command #2 at $(date)"
+time /hgsc_software/samtools/samtools-1.3.1_htslib_1_3_2/bin/samtools index /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.hgv.bam /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.hgv.bam.bai; hgvExitSafe 2 $?;
+echo "[ HgV ] Running Command #3 at $(date)"
+time mv /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.hgv.bam.bai /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.hgv.bai; hgvExitSafe 3 $?;
+echo "[ HgV ] Running Command #4 at $(date)"
+time rm -f /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.tmp.bam; hgvExitSafe 4 $?;
+echo "[ HgV ] Running Command #5 at $(date)"
+time /hgsc_software/BamUtil/bamUtil_1.0.13/bamUtil/bin/bam validate --in /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/HKWYYCCXY-1.hgv.bam; hgvExitSafe 5 $?;
+
+
+#End with a report on how the job ran. This only works for PBS
+#with qstat -x enabled. Feel to free to change, users.
+echo "[ HgV ] Job statistics:"
+questat -j $PBS_JOBID
+((((((-------Begin Run's Log-------))))))
+[ HgV ] Running Command #0 at Sat May  5 20:15:08 CDT 2018
+[ HgV ] Command 0 Finished on Sun May  6 19:03:44 CDT 2018
+[ HgV ] Exit Status: 0
+[ HgV ] Running Command #1 at Sun May  6 19:03:44 CDT 2018
+[ HgV ] Command 1 Finished on Mon May  7 03:16:33 CDT 2018
+[ HgV ] Exit Status: 0
+[ HgV ] Running Command #2 at Mon May  7 03:16:33 CDT 2018
+[ HgV ] Command 2 Finished on Mon May  7 03:34:50 CDT 2018
+[ HgV ] Exit Status: 0
+[ HgV ] Running Command #3 at Mon May  7 03:34:50 CDT 2018
+[ HgV ] Command 3 Finished on Mon May  7 03:34:50 CDT 2018
+[ HgV ] Exit Status: 0
+[ HgV ] Running Command #4 at Mon May  7 03:34:50 CDT 2018
+[ HgV ] Command 4 Finished on Mon May  7 03:34:50 CDT 2018
+[ HgV ] Exit Status: 0
+[ HgV ] Running Command #5 at Mon May  7 03:34:50 CDT 2018
+[ HgV ] Command 5 Finished on Mon May  7 04:17:52 CDT 2018
+[ HgV ] Exit Status: 0
+[ HgV ] Job statistics:
+{"id": "3435435.sug-prod-moab", "name": "HKWYYCCXY-1_Mapping", "cput": "204:22:08", "mem": "49355964kb", "wall": "32:02:03"}
