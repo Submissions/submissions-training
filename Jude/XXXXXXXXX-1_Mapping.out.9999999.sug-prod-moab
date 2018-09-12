@@ -1,0 +1,43 @@
+[ HgV ] Step name:	XXXXXXXXX-1_Mapping
+[ HgV ] Node name:	c81m-12b
+[ HgV ] PBS_JOBID:	3435435.sug-prod-moab
+[ HgV ] Start time:	Sat May  5 20:15:08 CDT 2018
+((((((-------Running HgV Script-------))))))
+#!/bin/bash
+#PBS -N HKWYYCCXY-1_Mapping
+#PBS -o /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.out.$PBS_JOBID
+#PBS -e /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.err.$PBS_JOBID
+#PBS -d /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1
+#PBS -l nodes=1:ppn=8,mem=48000mb
+#PBS -l walltime=168:00:00
+#PBS -q ill-prod
+#PBS -A HEMSTR_prog-ng0013
+#The return value of a pipeline is the value of the last command to exit with non-zero status
+set -o pipefail
+
+#Use the same HgV as was in the environment when the job was created regardless of user environment
+source /hgsc_software/HgV/HgV-v17.5/setup.sh /hgsc_software/HgV/HgV-v17.5 /hgsc_software/HgV/HgV-v17.5/config/production/
+
+#Wraps commands so we can be notified of failed commands
+function hgvExitSafe {
+    echo "[ HgV ] Command $1 Finished on $(date)";
+    echo "[ HgV ] Exit Status: $2"
+    if [ $2 -ne 0 ]; then
+        echo "[ HgV ] Aborting Step"
+        hgv Exit -n HKWYYCCXY-1_Mapping -s $2 -o /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.out.$PBS_JOBID -e /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/logs/HKWYYCCXY-1_Mapping.err.$PBS_JOBID -d /stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1
+        exit $2
+    fi
+}
+
+echo -e "[ HgV ] Step name:\tHKWYYCCXY-1_Mapping"
+echo -e "[ HgV ] Node name:\t$(uname -n)"
+echo -e "[ HgV ] PBS_JOBID:\t$PBS_JOBID"
+echo -e "[ HgV ] Start time:\t$(date)"
+
+echo "((((((-------Running HgV Script-------))))))"
+cat "/stornext/snfs160/next-gen/Illumina/Instruments/E00535/180501_E00535_0306_BHKWYYCCXY/Results/Project_HKWYYCCXY/Sample_HKWYYCCXY-1/scripts/HKWYYCCXY-1_Mapping.sh"
+echo "((((((-------Begin Run's Log-------))))))"
+
+[ HgV ] Job statistics:
+{"id": "9999999.sug-prod-moab", "name": "XXXXXXXXX-1_Mapping", "cput": "100:11:11", "mem": "555555kb", "wall": "33:33:33"}
+
